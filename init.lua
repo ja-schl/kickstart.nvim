@@ -184,6 +184,10 @@ vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
+-- Insert new lines
+vim.keymap.set('n', '<Enter>', '<cmd>call append(line("."), "")<CR>', { desc = 'Adds a new line below the cursor' })
+vim.keymap.set('n', '<S-Enter>', '<cmd>call append(line(".")-1, "")<CR>', { desc = 'Adds a new line above the cursor' })
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -870,6 +874,7 @@ require('lazy').setup({
   {
     'github/copilot.vim',
     branch = 'release',
+    enabled = false,
   },
   {
     'ThePrimeagen/harpoon',
