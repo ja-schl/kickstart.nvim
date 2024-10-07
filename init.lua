@@ -100,9 +100,7 @@ vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -197,6 +195,12 @@ vim.keymap.set('n', '<S-Enter>', '<cmd>call append(line(".")-1, "")<CR>', { desc
 -- move lines
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
+-- open terminal in window below
+vim.keymap.set('n', '<leader>tw', function()
+  vim.cmd 'split'
+  vim.cmd('resize ' .. 20)
+  vim.cmd 'terminal'
+end, { desc = 'Opens a terminal in a horizontal window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
