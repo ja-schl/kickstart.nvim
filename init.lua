@@ -155,6 +155,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- custom options
+vim.opt.autoread = true
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -190,7 +193,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Custom keymaps
 vim.keymap.set('n', '<leader>E', '<cmd>Ex<CR>')
-vim.keymap.set('n', '<Enter>', '<cmd>call append(line("."), "")<CR>', { desc = 'Adds a new line below the cursor' })
+vim.keymap.set('n', '<C-Enter>', '<cmd>call append(line("."), "")<CR>', { desc = 'Adds a new line below the cursor' })
 vim.keymap.set('n', '<S-Enter>', '<cmd>call append(line(".")-1, "")<CR>', { desc = 'Adds a new line above the cursor' })
 -- move lines
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
@@ -712,6 +715,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        go = { 'gofmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
