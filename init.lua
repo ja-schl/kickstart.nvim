@@ -697,7 +697,7 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
+      --[[ format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
@@ -712,10 +712,18 @@ require('lazy').setup({
           timeout_ms = 500,
           lsp_format = lsp_format_opt,
         }
-      end,
+      end, 
+      -- ]]
+
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofmt' },
+        javascript = { { 'prettierd', 'prettier', stop_after_first = true } },
+        typescript = { { 'prettierd', 'prettier', stop_after_first = true } },
+        javascriptreact = { { 'prettierd', 'prettier', stop_after_first = true } },
+        typescriptreact = { { 'prettierd', 'prettier', stop_after_first = true } },
+        css = { { 'prettierd', 'prettier', stop_after_first = true } },
+        scss = { { 'prettierd', 'prettier', stop_after_first = true } },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -860,8 +868,6 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -905,7 +911,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'javascript', 'typescript', 'css', 'scss' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
