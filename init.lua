@@ -158,6 +158,8 @@ vim.opt.scrolloff = 10
 -- custom options
 vim.opt.autoread = true
 
+vim.opt.colorcolumn = '80'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -192,7 +194,6 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Custom keymaps
-vim.keymap.set('n', '<leader>E', '<cmd>Ex<CR>')
 vim.keymap.set('n', '<C-Enter>', '<cmd>call append(line("."), "")<CR>', { desc = 'Adds a new line below the cursor' })
 vim.keymap.set('n', '<S-Enter>', '<cmd>call append(line(".")-1, "")<CR>', { desc = 'Adds a new line above the cursor' })
 -- move lines
@@ -244,7 +245,9 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  {
+    'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -529,7 +532,9 @@ require('lazy').setup({
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          map('gv', '<c-w>vgd', '[G]oto definition [V]ertical pane')
+          map('gv', function()
+            require('telescope.builtin').lsp_definitions { jump_type = 'vsplit' }
+          end, '[G]oto definition [V]ertical pane')
 
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -622,7 +627,8 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
+        sqlls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -631,7 +637,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -936,6 +942,7 @@ require('lazy').setup({
         'typescript',
         'css',
         'scss',
+        'sql',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -977,7 +984,64 @@ require('lazy').setup({
       { '<leader>zz', '<cmd>ZenMode<cr>', desc = 'Toggle ZenMode' },
     },
   },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    config = function()
+      require('oil').setup {
+        default_file_explorer = true,
+      }
+      vim.keymap.set('n', '<leader>E', '<CMD>Oil<CR>', { desc = 'Open oil file explorer' })
+    end,
+  },
+  {
+    'echasnovski/mini.surround',
+    config = function()
+      require('mini.surround').setup()
+    end,
+    version = '*',
+  },
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon:setup()
+
+      -- Basic keymaps
+      vim.keymap.set('n', '<leader>ha', function()
+        harpoon:list():add()
+      end, { desc = 'Harpoon: Add file' })
+      vim.keymap.set('n', '<leader>hm', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end, { desc = 'Harpoon: Toggle menu' })
+
+      -- Navigation
+      vim.keymap.set('n', '<leader>1', function()
+        harpoon:list():select(1)
+      end, { desc = 'Harpoon: Navigate to file 1' })
+      vim.keymap.set('n', '<leader>2', function()
+        harpoon:list():select(2)
+      end, { desc = 'Harpoon: Navigate to file 2' })
+      vim.keymap.set('n', '<leader>3', function()
+        harpoon:list():select(3)
+      end, { desc = 'Harpoon: Navigate to file 3' })
+      vim.keymap.set('n', '<leader>4', function()
+        harpoon:list():select(4)
+      end, { desc = 'Harpoon: Navigate to file 4' })
+
+      -- Previous/Next navigation
+      vim.keymap.set('n', '<leader>hp', function()
+        harpoon:list():prev()
+      end, { desc = 'Harpoon: Previous file' })
+      vim.keymap.set('n', '<leader>hn', function()
+        harpoon:list():next()
+      end, { desc = 'Harpoon: Next file' })
+    end,
+  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
+  --
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
 
@@ -989,7 +1053,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
