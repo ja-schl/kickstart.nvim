@@ -977,9 +977,6 @@ require('lazy').setup({
   {
     'folke/zen-mode.nvim',
 
-    opts = {
-      window = { width = 160 },
-    },
     keys = {
       { '<leader>zz', '<cmd>ZenMode<cr>', desc = 'Toggle ZenMode' },
     },
