@@ -108,13 +108,6 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -373,6 +366,10 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      {
+        'nvim-telescope/telescope-live-grep-args.nvim',
+        version = 'ˆ1.0.0',
+      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -1027,6 +1024,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>4', function()
         harpoon:list():select(4)
       end, { desc = 'Harpoon: Navigate to file 4' })
+      vim.keymap.set('n', '<leader>5', function()
+        harpoon:list():select(5)
+      end, { desc = 'Harpoon: Navigate to file 5' })
 
       -- Previous/Next navigation
       vim.keymap.set('n', '<leader>hp', function()
