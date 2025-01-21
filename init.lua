@@ -108,7 +108,6 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
-
 -- Enable break indent
 vim.opt.breakindent = true
 
@@ -151,8 +150,6 @@ vim.opt.scrolloff = 10
 -- custom options
 vim.opt.autoread = true
 
-vim.opt.colorcolumn = '80'
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -187,6 +184,7 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Custom keymaps
+vim.keymap.set('n', '<leader>E', '<cmd>Ex<CR>')
 vim.keymap.set('n', '<C-Enter>', '<cmd>call append(line("."), "")<CR>', { desc = 'Adds a new line below the cursor' })
 vim.keymap.set('n', '<S-Enter>', '<cmd>call append(line(".")-1, "")<CR>', { desc = 'Adds a new line above the cursor' })
 -- move lines
@@ -366,10 +364,6 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-      {
-        'nvim-telescope/telescope-live-grep-args.nvim',
-        version = 'ˆ1.0.0',
-      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -939,7 +933,6 @@ require('lazy').setup({
         'typescript',
         'css',
         'scss',
-        'sql',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -1038,7 +1031,6 @@ require('lazy').setup({
     end,
   },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  --
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
 
